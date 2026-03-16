@@ -9,7 +9,9 @@ for i in ~/.vim/bundle/*; do
     continue
   fi
   echo "    $(basename $i)"
-  git -C "$i" pull --quiet
+  if ! timeout 10s git -C "$i" pull --quiet; then
+    echo "    $(basename $i) — timed out or failed, skipping"
+  fi
 done
 
 echo ""
