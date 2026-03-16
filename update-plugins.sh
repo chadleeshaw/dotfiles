@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 # Update vim (Pathogen) and nvim (Packer) plugins
 
-set -e
 
 echo "==> Updating vim plugins (Pathogen)..."
 for i in ~/.vim/bundle/*; do
+  if [ ! -d "$i/.git" ]; then
+    echo "    $(basename $i) — skipping (not a git repo)"
+    continue
+  fi
   echo "    $(basename $i)"
   git -C "$i" pull --quiet
 done
