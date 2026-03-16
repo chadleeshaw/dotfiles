@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # Update vim (Pathogen) and nvim (Packer) plugins
 
 # Use gtimeout (coreutils) if available, otherwise fall back to plain git pull
