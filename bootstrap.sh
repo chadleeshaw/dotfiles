@@ -79,7 +79,6 @@ ln -sf "$DOTFILES/.bash_profile" ~/.bash_profile
 ln -sf "$DOTFILES/.gitconfig"   ~/.gitconfig
 ln -sf "$DOTFILES/.gitconfig-chadleeshaw" ~/.gitconfig-chadleeshaw
 ln -sf "$DOTFILES/.tmux.conf"   ~/.tmux.conf
-ln -sf "$DOTFILES/.vimrc"       ~/.vimrc
 echo "    Done."
 
 echo ""
@@ -114,41 +113,7 @@ echo "==> Installing Homebrew packages..."
 brew bundle --file="$DOTFILES/Brewfile"
 
 # -------------------------------------------------------
-# 8. Vim plugins (Pathogen)
-# -------------------------------------------------------
-echo ""
-echo "==> Installing vim plugins (Pathogen)..."
-mkdir -p ~/.vim/autoload ~/.vim/bundle
-if [ ! -f ~/.vim/autoload/pathogen.vim ]; then
-  curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-fi
-PLUGINS=(
-  "https://github.com/ctrlpvim/ctrlp.vim"
-  "https://github.com/tpope/vim-fugitive"
-  "https://github.com/davidhalter/jedi-vim"
-  "https://github.com/preservim/nerdtree"
-  "https://github.com/Xuyuanp/nerdtree-git-plugin"
-  "https://github.com/saltstack/salt-vim"
-  "https://github.com/vim-airline/vim-airline"
-  "https://github.com/tpope/vim-commentary"
-  "https://github.com/easymotion/vim-easymotion"
-  "https://github.com/jistr/vim-nerdtree-tabs"
-  "https://github.com/tpope/vim-surround"
-  "https://github.com/tpope/vim-system-copy"
-  "https://github.com/stephpy/vim-yaml"
-)
-for repo in $PLUGINS; do
-  name=$(basename $repo)
-  if [ ! -d ~/.vim/bundle/$name ]; then
-    git clone --quiet $repo ~/.vim/bundle/$name
-    echo "    Installed $name"
-  else
-    echo "    $name already installed"
-  fi
-done
-
-# -------------------------------------------------------
-# 9. Neovim plugins (Packer)
+# 8. Neovim plugins (Packer)
 # -------------------------------------------------------
 echo ""
 echo "==> Bootstrapping Neovim plugins (Packer)..."
