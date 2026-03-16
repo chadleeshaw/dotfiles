@@ -1,0 +1,84 @@
+format = """
+$python\
+$golang\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_state\
+$git_status\
+$git_commit\
+$cmd_duration\
+$fill\
+$kubernetes\
+$custom\
+$line_break\
+$character"""
+
+[fill]
+symbol = ' '
+
+[python]
+format = '[${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+style = 'green bold'
+
+[golang]
+format = '[($version )]($style)'
+
+[kubernetes]
+format = '[$symbol$context(\($namespace\))]($style) '
+disabled = false
+style = "#8be9fd"
+
+[directory]
+style = "#bd93f9"
+read_only = " "
+truncation_length = 3
+truncate_to_repo = false
+truncation_symbol = '…/'
+
+[git_branch]
+symbol = " "
+format = "[$symbol$branch]($style) "
+style = "#ffb86c"
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "#f1fa8c"
+disabled = false
+
+[git_status]
+style = "#ff79c6"
+up_to_date = "✓"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇡${ahead_count} ⇣${behind_count} "
+modified = "!${count} "
+untracked = "?${count} "
+staged = "+${count}"
+format = '([\[$all_status$ahead_behind\]]($style) )'
+disabled = false
+
+[custom.incus]
+description = "Display incus remote and project context"
+command = "$HOME/.config/starship/incus-prompt"
+when = 'command -v incus > /dev/null'
+style = "#8be9fd"
+format = "[$output]($style) "
+
+[git_commit]
+commit_hash_length = 4
+tag_symbol = '🔖 '
+disabled = false
+
+[cmd_duration]
+format = "[$duration]($style)"
+style = "#f1fa8c"
+min_time = 1000
+
+[line_break]
+disabled = false
+
+[character]
+success_symbol = '[➜](bold green) '
+error_symbol = '[✗](bold red) '

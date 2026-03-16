@@ -1,0 +1,25 @@
+# Background opacity (0.0 = fully transparent, 1.0 = fully opaque)
+background-opacity = 0.85
+
+# Blur behind the window for a frosted-glass effect (macOS only)
+background-blur = 20
+
+# Font — matches VSCode terminal font with Nerd Font glyphs for vim airline
+font-family = FiraCode Nerd Font Mono
+font-size = 16
+
+# Ligatures off — matches VSCode editor.fontLigatures: false
+font-feature = -calt, -liga, -dlig
+
+# Theme
+theme = Dracula
+
+# Scrollback — matches VSCode terminal.integrated.scrollback: 3000
+scrollback-limit = 3000
+
+# Shell integration for prompt detection and window title
+shell-integration = detect
+shell-integration-features = cursor,title
+
+# Option key as Alt — useful for vim and terminal shortcuts
+macos-option-as-alt = true
