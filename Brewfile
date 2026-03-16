@@ -1,3 +1,4 @@
+tap "TheBoredTeam/boring-notch"
 tap "anomalyco/tap"
 tap "atlassian/acli"
 brew "bat"
@@ -48,6 +49,7 @@ cask "cmux"
 cask "obsidian"
 cask "postman"
 cask "spotify"
+cask "TheBoredTeam/boring-notch/boring-notch", args: { no_quarantine: true }
 cask "visual-studio-code"
 cask "vivaldi"
 go "golang.org/x/tools/gopls"
