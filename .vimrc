@@ -13,13 +13,13 @@ let mapleader=";"
 :imap jj <Esc>
 autocmd Filetype python nnoremap <buffer> <F5> :w<CR>:vert ter python3 "%"<CR>
 
-" Powerline Settings
-set rtp+=/usr/local/opt/python/Frameworks/Python.framework/Versions/Current/lib/python3.9/site-packages/powerline/bindings/vim
-set guifont=Menlo\ for\ Powerline
+ " Airline Settings
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
+set guifont=Meslo\ LG\ L\ for\ Powerline
 set laststatus=2
 set encoding=utf-8
 set t_Co=256
-set term=xterm-256color
 set termencoding=utf-8
 
 " Tab Settings
@@ -28,7 +28,6 @@ set softtabstop=4
 set tabstop=4
 set expandtab
 set shiftround
-set expandtab
 
 " Load Pathogen
 execute pathogen#infect()
@@ -37,7 +36,7 @@ execute pathogen#infect()
 let g:NERDTreeGitStatusShowIgnored = 1
 nnoremap <leader>q :Sbd<CR>
 nnoremap <leader>qm :Sbdm<CR>
-"map <C-n> <plug>NERDTreeTabsToggle<CR>
+map <C-n> <plug>NERDTreeTabsToggle<CR>
 nmap <silent> <C-n> :call g:WorkaroundNERDTreeToggle()<CR>
 
 function! g:WorkaroundNERDTreeToggle()
@@ -71,5 +70,6 @@ noremap <leader>0 :tablast<cr>
 color wombat256mod
 
 " Ctrl-p
+set rtp+=/opt/homebrew/opt/fzf
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'

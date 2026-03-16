@@ -3,6 +3,14 @@ export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 
+# ENV's
+eval "$(/opt/homebrew/bin/brew shellenv)"
+ulimit -n 2048
+export BASH_SILENCE_DEPRECATION_WARNING=1
+export GOPATH=$HOME/go
+export GOROOT="$(brew --prefix golang)/libexec"
+export PATH=$PATH:/Users/chad.shaw/src/pops/salt-states/bin:${GOPATH}/bin:${GOROOT}/bin
+
 # Alias's
 alias ll='ls -Glah'
 alias vi='vim'
@@ -15,36 +23,34 @@ alias gc='git commit -m'
 alias gp='git push'
 alias renew='sudo ifconfig en6 down && sudo ifconfig en6 up'
 alias k='kubectl'
+complete -F __start_kubectl k
+alias m='mrmeseeks'
 alias kx='kubectx'
 alias kns='kubens'
-eval $(thefuck --alias)
+alias ll='ls -la'
 
-# Powerline Settings
-powerline-daemon -q
-POWERLINE_BASH_CONTINUATION=1
-POWERLINE_BASH_SELECT=1
-. /usr/local/lib/python3.9/site-packages/powerline/bindings/bash/powerline.sh
-
-# Paths
-export GOPATH=$HOME/src/chadleeshaw/go
-export PYTHONPATH=$PYTHONPATH:/usr/local/opt/python/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages
-export PATH="/Users/Chad/src/pops/salt-states/bin:$PATH"
-export PATH="/usr/local/opt/libpq/bin:$PATH"
-export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="/usr/local/opt/python/libexec/bin:$PATH"
-export PATH="/usr/local/Cellar/minikube/1.10.1/bin:$PATH"
+# Powerline
+function _update_ps1() {
+    PS1="$($GOPATH/bin/powerline-go -error $? \
+	    -jobs $(jobs -p | wc -l) \
+	    -cwd-max-depth 3 \
+	    -hostname-only-if-ssh \
+        -modules cwd,git,kube \
+        -theme ~/.powerline/config.json
+	)"
+    #set "?"
+}
+if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+fi
 
 # K8's
-export KUBECONFIG=~/.kube/configs/ax-tp:~/.kube/configs/plat-tp:~/.kube/configs/minikube
-source $(brew --prefix)/etc/bash_completion
-source <(kubectl completion bash)
+export KUBECONFIG=~/.kube/config
+# export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
+# [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+# source <(kubectl completion bash)
 
-# Pyspark
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home"
-export SBT_HOME="/usr/local/Cellar/sbt/1.2.8/libexec/bin/sbt"
-export SCALA_HOME="/usr/local/Cellar/scala/2.12.8"
-export PYSPARK_PYTHON=python3
-export SPARK_HOME=/Users/Chad/spark
-export PATH=$JAVA_HOME/bin:$SBT_HOME/bin:$SBT_HOME/lib:$SCALA_HOME/bin:$SCALA_HOME/lib:$PATH
-export PATH=$JAVA_HOME/bin:$SPARK_HOME:$SPARK_HOME/bin:$SPARK_HOME/sbin:$PATH
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/chad.shaw/.cache/lm-studio/bin"
+# End of LM Studio CLI section
+

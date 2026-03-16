@@ -1,0 +1,5 @@
+[user]
+	name = Chad Shaw
+	email = chad.shaw@vivint.com
+[includeIf "gitdir:~/src/chadleeshaw/"]
+	path = /Users/chad.shaw/.gitconfig-chadleeshaw
