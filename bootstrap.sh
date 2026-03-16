@@ -13,7 +13,19 @@ echo "======================================"
 echo ""
 
 # -------------------------------------------------------
-# 1. SSH keys — required to clone from GitHub
+# 1. Xcode CLI tools
+# -------------------------------------------------------
+echo "==> Checking for Xcode CLI tools..."
+if ! xcode-select -p &>/dev/null; then
+  echo "    Installing Xcode CLI tools..."
+  xcode-select --install
+  echo "    Follow the prompt, then re-run this script."
+  exit 1
+fi
+echo "    Xcode CLI tools found."
+
+# -------------------------------------------------------
+# 2. SSH keys — required to clone from GitHub
 # -------------------------------------------------------
 echo "==> Checking for SSH keys..."
 if [ ! -f ~/.ssh/id_ed25519 ] && [ ! -f ~/.ssh/id_rsa ]; then
@@ -31,7 +43,7 @@ fi
 echo "    SSH key found."
 
 # -------------------------------------------------------
-# 2. Homebrew
+# 3. Homebrew
 # -------------------------------------------------------
 echo ""
 echo "==> Checking for Homebrew..."
@@ -44,7 +56,7 @@ else
 fi
 
 # -------------------------------------------------------
-# 3. Clone dotfiles
+# 4. Clone dotfiles
 # -------------------------------------------------------
 echo ""
 echo "==> Cloning dotfiles..."
@@ -57,7 +69,7 @@ else
 fi
 
 # -------------------------------------------------------
-# 4. Symlink dotfiles
+# 5. Symlink dotfiles
 # -------------------------------------------------------
 echo ""
 echo "==> Symlinking dotfiles..."
@@ -81,7 +93,7 @@ ln -sf "$DOTFILES/.config/nvim"                   ~/.config/nvim
 echo "    Done."
 
 # -------------------------------------------------------
-# 5. Secrets file
+# 6. Secrets file
 # -------------------------------------------------------
 echo ""
 echo "==> Checking for ~/.zsh_secrets..."
@@ -95,14 +107,14 @@ else
 fi
 
 # -------------------------------------------------------
-# 6. Homebrew packages
+# 7. Homebrew packages
 # -------------------------------------------------------
 echo ""
 echo "==> Installing Homebrew packages..."
 brew bundle --file="$DOTFILES/Brewfile"
 
 # -------------------------------------------------------
-# 7. Vim plugins (Pathogen)
+# 8. Vim plugins (Pathogen)
 # -------------------------------------------------------
 echo ""
 echo "==> Installing vim plugins (Pathogen)..."
@@ -136,7 +148,7 @@ for repo in $PLUGINS; do
 done
 
 # -------------------------------------------------------
-# 8. Neovim plugins (Packer)
+# 9. Neovim plugins (Packer)
 # -------------------------------------------------------
 echo ""
 echo "==> Bootstrapping Neovim plugins (Packer)..."
