@@ -1,7 +1,7 @@
 require("chad.core.options")
 require("chad.core.keymaps")
-require("chad.core.colorscheme")
 require("chad.plugins-setup")
+require("chad.core.colorscheme")
 require("chad.plugins.which-key")
 require("chad.plugins.comment")
 require("chad.plugins.nvim-tree")
