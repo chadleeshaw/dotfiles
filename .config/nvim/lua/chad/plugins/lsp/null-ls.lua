@@ -12,7 +12,7 @@ null_ls.setup({
 	sources = {
 		formatting.stylua, -- lua formatter
 		formatting.gofmt, -- go formatter
-		formatting.beautysh, -- bash formatter
+		formatting.shfmt, -- bash/sh formatter (beautysh removed from none-ls)
 		diagnostics.pylint, -- python linter
 		diagnostics.codespell, -- spell checker
 	},

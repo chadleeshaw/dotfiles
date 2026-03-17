@@ -43,7 +43,7 @@ mason_null_ls.setup({
 		"stylua", -- lua formatter
 		"gofmt", -- go formatter
 		"pylint", -- python formatter
-		"beautysh", -- bash beautifier
+		"shfmt", -- bash/sh formatter (beautysh removed from none-ls)
 		"codespell", -- find misspellings
 	},
 	-- auto-install configured formatters & linters (with null-ls)
