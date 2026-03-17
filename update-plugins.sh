@@ -1,30 +1,22 @@
 #!/usr/bin/env zsh
-# Update vim (Pathogen) and nvim (Packer) plugins
+# Update nvim plugins via lazy.nvim and sync dotfiles to origin
 
-# Use gtimeout (coreutils) if available, otherwise fall back to plain git pull
-if command -v gtimeout &>/dev/null; then
-  GIT_PULL() { gtimeout 10s git -C "$1" pull --quiet; }
-elif command -v timeout &>/dev/null; then
-  GIT_PULL() { timeout 10s git -C "$1" pull --quiet; }
-else
-  GIT_PULL() { git -C "$1" pull --quiet; }
-fi
-
-echo "==> Updating vim plugins (Pathogen)..."
-for i in ~/.vim/bundle/*; do
-  if [ ! -d "$i/.git" ]; then
-    echo "    $(basename $i) — skipping (not a git repo)"
-    continue
-  fi
-  echo "    $(basename $i)"
-  if ! GIT_PULL "$i"; then
-    echo "    $(basename $i) — timed out or failed, skipping"
-  fi
-done
+echo "==> Updating nvim plugins (lazy.nvim)..."
+nvim --headless -c "lua require('lazy').sync()" -c "qa" 2>&1
 
 echo ""
-echo "==> Updating nvim plugins (Packer)..."
-nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
+echo "==> Committing updated lazy-lock.json..."
+if git -C "${0:A:h}" diff --quiet .config/nvim/lazy-lock.json; then
+  echo "    No plugin version changes."
+else
+  git -C "${0:A:h}" add .config/nvim/lazy-lock.json
+  git -C "${0:A:h}" commit -m "chore: update lazy-lock.json"
+  echo "    Committed."
+fi
+
+echo ""
+echo "==> Pushing dotfiles to origin..."
+git -C "${0:A:h}" push
 
 echo ""
 echo "Done."
