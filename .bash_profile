@@ -1,56 +1,79 @@
-# Bash Colors
-export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
+# Suppress macOS bash deprecation warning
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
+# Colors
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 
-# ENV's
+# Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 ulimit -n 2048
-export BASH_SILENCE_DEPRECATION_WARNING=1
+
+# Go
 export GOPATH=$HOME/go
 export GOROOT="$(brew --prefix golang)/libexec"
-export PATH=$PATH:/Users/chad.shaw/src/pops/salt-states/bin:${GOPATH}/bin:${GOROOT}/bin
+export GOOS="darwin"
+export GOARCH="arm64"
+export GOBIN=$GOPATH/bin
 
-# Alias's
-alias ll='ls -Glah'
-alias vi='vim'
+# Java
+export JAVA_HOME=/opt/homebrew/opt/openjdk
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+# Ruby (chef/kitchen)
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+
+# General PATH additions
+export PATH=$PATH:$HOME/src/pops/salt-states/bin:${GOPATH}/bin:${GOROOT}/bin
+
+# Antigravity
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+
+# Gem
+export GEM_HOME=$HOME/.gem
+
+# Kubernetes
+export KUBECONFIG=~/.kube/config
+
+# Aliases — general
+alias ls="eza --icons --group-directories-first"
+alias ll="eza --icons --group-directories-first -la"
+alias vi='nvim'
+alias vim='nvim'
 alias x='exit'
 alias c='clear'
 alias huh='ps aux | grep '
+
+# Aliases — git
 alias gs='git status'
 alias ga='git add'
 alias gc='git commit -m'
 alias gp='git push'
-alias renew='sudo ifconfig en6 down && sudo ifconfig en6 up'
-alias k='kubectl'
-complete -F __start_kubectl k
-alias m='mrmeseeks'
+
+# Aliases — kubernetes
+alias k='kubecolor'
 alias kx='kubectx'
-alias kns='kubens'
-alias ll='ls -la'
+alias kn='kubens'
 
-# Powerline
-function _update_ps1() {
-    PS1="$($GOPATH/bin/powerline-go -error $? \
-	    -jobs $(jobs -p | wc -l) \
-	    -cwd-max-depth 3 \
-	    -hostname-only-if-ssh \
-        -modules cwd,git,kube \
-        -theme ~/.powerline/config.json
-	)"
-    #set "?"
-}
-if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-fi
+# Aliases — tools
+alias t='terraform'
+alias m='mrmeseeks'
+alias sre='sre-tui'
+alias code="open -a 'Visual Studio Code'"
+alias renew='sudo ifconfig en6 down && sudo ifconfig en6 up'
+alias gr="GOOS=darwin GOARCH=arm64 go run"
+alias hcc="rm -rf $HOME/Library/Caches/helm/repository/* && rm -rf $HOME/Library/Caches/helmfile/*"
+alias yqsort='yq -i '\''sort_keys(..)'\'''
+alias kitchen="/opt/homebrew/opt/ruby/bin/bundle exec kitchen"
 
-# K8's
-export KUBECONFIG=~/.kube/config
-# export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
-# [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
-# source <(kubectl completion bash)
+# Aliases — incus remotes
+alias ise='incus remote switch se'
+alias isw='incus remote switch sw'
+alias itp='incus remote switch tp'
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/chad.shaw/.cache/lm-studio/bin"
-# End of LM Studio CLI section
+# kubectl completion
+source <(kubectl completion bash) 2>/dev/null
+complete -o default -F __start_kubectl k
 
+# Secrets (API keys etc.) — not tracked in git
+[ -f ~/.zsh_secrets ] && source ~/.zsh_secrets
