@@ -12,16 +12,16 @@ null_ls.setup({
 	sources = {
 		formatting.stylua, -- lua formatter
 		formatting.gofmt, -- go formatter
-		formatting.shfmt, -- bash/sh formatter (beautysh removed from none-ls)
-		diagnostics.pylint, -- python linter
+		formatting.shfmt, -- bash/sh formatter
 		diagnostics.codespell, -- spell checker
 	},
 	-- format on save
 	on_attach = function(current_client, bufnr)
 		if current_client.supports_method("textDocument/formatting") then
-			vim.api.nvim_clear_autocmds({ group = "LspFormatting", buffer = bufnr })
+			local group = vim.api.nvim_create_augroup("LspFormatting", { clear = false })
+			vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
 			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = vim.api.nvim_create_augroup("LspFormatting", {}),
+				group = group,
 				buffer = bufnr,
 				callback = function()
 					vim.lsp.buf.format({ bufnr = bufnr })

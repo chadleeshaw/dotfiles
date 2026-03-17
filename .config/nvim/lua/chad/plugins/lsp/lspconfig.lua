@@ -9,12 +9,29 @@ vim.lsp.config("*", {
 	capabilities = cmp_nvim_lsp.default_capabilities(),
 })
 
--- diagnostic signs in the gutter
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
-	local hl = "DiagnosticSign" .. type
-	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-end
+-- float diagnostic window to the right, out of the way
+vim.diagnostic.config({
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = " ",
+			[vim.diagnostic.severity.WARN] = " ",
+			[vim.diagnostic.severity.HINT] = " ",
+			[vim.diagnostic.severity.INFO] = " ",
+		},
+	},
+	float = {
+		border = "rounded",
+		anchor_bias = "east",
+		max_width = 80,
+	},
+})
+
+-- show diagnostics float automatically when cursor rests on a line
+vim.api.nvim_create_autocmd("CursorHold", {
+	callback = function()
+		vim.diagnostic.open_float(nil, { focus = false })
+	end,
+})
 
 -- keymaps applied whenever any LSP attaches to a buffer
 vim.api.nvim_create_autocmd("LspAttach", {

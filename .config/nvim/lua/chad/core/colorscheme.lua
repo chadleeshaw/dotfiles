@@ -1,14 +1,13 @@
--- configure tokyonight before applying
-local ok, tokyonight = pcall(require, "tokyonight")
+local ok, dracula = pcall(require, "dracula")
 if ok then
-  tokyonight.setup({
-    style = "night", -- night | storm | moon | day
-    transparent = false,
+  dracula.setup({
+    show_end_of_buffer = false, -- hide ~ at end of buffer
+    transparent_bg = false,
+    italic_comment = true,
   })
 end
 
--- apply colorscheme
-local status, _ = pcall(vim.cmd, "colorscheme tokyonight")
+local status, _ = pcall(vim.cmd, "colorscheme dracula")
 if not status then
   print("Colorscheme not found!")
 end

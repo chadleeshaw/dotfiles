@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 # Bootstrap a new macOS machine from dotfiles
 # https://github.com/chadleeshaw/dotfiles
 

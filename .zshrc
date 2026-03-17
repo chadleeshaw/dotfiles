@@ -27,6 +27,17 @@ export FZF_CTRL_T_OPTS="--preview 'f={}; if [ -d \"\$f\" ]; then eza --icons --t
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 eval "$(starship init zsh)"
 
+# Yazi - launch with Ctrl+Y, cd into directory on exit
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+  yazi "$@" --cwd-file="$tmp"
+  if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    cd -- "$cwd"
+  fi
+  rm -f -- "$tmp"
+}
+bindkey -s '^y' 'y\n'
+
 # Aliases
 alias ls="eza --icons --group-directories-first"
 alias ll="eza --icons --group-directories-first -la"
@@ -53,6 +64,7 @@ alias itp='incus remote switch tp'
 alias gr="GOOS=darwin GOARCH=arm64 go run"
 alias hcc="rm -rf $HOME/Library/Caches/helm/repository/* && rm -rf $HOME/Library/Caches/helmfile/*"
 alias yqsort='yq -i '\''sort_keys(..)'\'''
+alias y='yazi'
 
 source <(kubectl completion zsh)
 compdef kubecolor=kubectl

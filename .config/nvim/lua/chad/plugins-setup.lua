@@ -18,7 +18,7 @@ require("lazy").setup({
 	"nvim-lua/plenary.nvim",
 
 	-- colorscheme
-	"folke/tokyonight.nvim",
+	"Mofiqul/dracula.nvim",
 
 	-- tmux & split window navigation
 	"christoomey/vim-tmux-navigator",
@@ -91,9 +91,7 @@ require("lazy").setup({
 	-- treesitter
 	{
 		"nvim-treesitter/nvim-treesitter",
-		build = function()
-			require("nvim-treesitter.install").update({ with_sync = true })()
-		end,
+		build = ":TSUpdate",
 		dependencies = {
 			"windwp/nvim-ts-autotag",
 		},
@@ -137,6 +135,9 @@ require("lazy").setup({
 	{
 		"hedyhli/outline.nvim",
 	},
+
+	-- linting (shellcheck, etc.)
+	"mfussenegger/nvim-lint",
 }, {
 	-- lazy.nvim options
 	ui = {

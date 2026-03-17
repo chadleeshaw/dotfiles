@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 # Update nvim plugins via lazy.nvim and sync dotfiles to origin
 
 echo "==> Updating nvim plugins (lazy.nvim)..."
@@ -7,11 +7,11 @@ nvim --headless -c "lua require('lazy').sync()" -c "qa" 2>&1
 echo ""
 echo "==> Committing updated lazy-lock.json..."
 if git -C "${0:A:h}" diff --quiet .config/nvim/lazy-lock.json; then
-  echo "    No plugin version changes."
+	echo "    No plugin version changes."
 else
-  git -C "${0:A:h}" add .config/nvim/lazy-lock.json
-  git -C "${0:A:h}" commit -m "chore: update lazy-lock.json"
-  echo "    Committed."
+	git -C "${0:A:h}" add .config/nvim/lazy-lock.json
+	git -C "${0:A:h}" commit -m "chore: update lazy-lock.json"
+	echo "    Committed."
 fi
 
 echo ""

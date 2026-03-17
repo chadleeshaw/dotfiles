@@ -42,7 +42,6 @@ mason_null_ls.setup({
 	ensure_installed = {
 		"stylua", -- lua formatter
 		"gofmt", -- go formatter
-		"pylint", -- python formatter
 		"shfmt", -- bash/sh formatter (beautysh removed from none-ls)
 		"codespell", -- find misspellings
 	},
