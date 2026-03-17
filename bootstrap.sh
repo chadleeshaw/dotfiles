@@ -113,17 +113,12 @@ echo "==> Installing Homebrew packages..."
 brew bundle --file="$DOTFILES/Brewfile"
 
 # -------------------------------------------------------
-# 8. Neovim plugins (Packer)
+# 8. Neovim plugins (lazy.nvim)
 # -------------------------------------------------------
 echo ""
-echo "==> Bootstrapping Neovim plugins (Packer)..."
-PACKER_PATH="$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim"
-if [ ! -d "$PACKER_PATH" ]; then
-  git clone --quiet --depth 1 https://github.com/wbthomason/packer.nvim "$PACKER_PATH"
-  echo "    Packer installed."
-fi
-echo "    Running PackerSync (this may take a moment)..."
-nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
+echo "==> Bootstrapping Neovim plugins (lazy.nvim)..."
+echo "    Running lazy.sync (this may take a moment)..."
+nvim --headless -c "lua require('lazy').sync()" -c "qa" 2>&1
 echo "    Done."
 
 # -------------------------------------------------------
