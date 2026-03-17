@@ -4,7 +4,8 @@ if not status then
   return
 end
 
-options = { theme = 'dracula' }
-
-require('lualine').setup()
-
+lualine.setup({
+  options = {
+    theme = "tokyonight",
+  },
+})

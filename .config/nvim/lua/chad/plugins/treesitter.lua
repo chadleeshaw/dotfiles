@@ -27,7 +27,6 @@ treesitter.setup({
 		"go",
 		"python",
 		"toml",
-		"yaml",
 	},
 	-- auto install above language parsers
 	auto_install = true,

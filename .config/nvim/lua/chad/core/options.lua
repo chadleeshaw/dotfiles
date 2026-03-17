@@ -38,3 +38,14 @@ opt.splitright = true -- split vertical window to the right
 opt.splitbelow = true -- split horizontal window to the bottom
 
 opt.iskeyword:append("-") -- consider string-string as whole word
+
+-- scroll padding
+opt.scrolloff = 8 -- keep 8 lines above/below cursor when scrolling
+
+-- performance
+opt.updatetime = 250 -- faster CursorHold / LSP response
+
+-- no swap/backup files (use undofile instead)
+opt.swapfile = false
+opt.backup = false
+opt.undofile = true -- persistent undo history across sessions

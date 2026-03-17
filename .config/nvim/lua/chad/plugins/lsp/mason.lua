@@ -10,7 +10,7 @@ if not mason_lspconfig_status then
 	return
 end
 
--- import mason-null-ls plugin safely
+-- import mason-null-ls plugin safely (jay-babu fork, works with none-ls)
 local mason_null_ls_status, mason_null_ls = pcall(require, "mason-null-ls")
 if not mason_null_ls_status then
 	return
