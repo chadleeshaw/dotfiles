@@ -51,8 +51,14 @@ For a new machine, run the bootstrap script:
 
 ```sh
 git clone https://github.com/chadleeshaw/dotfiles ~/src/chadleeshaw/dotfiles
+
+# Optional: pre-set the private dot-opencode repo URL to skip the prompt
+export DOT_OPENCODE_REPO="git@gitlab.com:your-org/your-repo.git"
+
 ~/src/chadleeshaw/dotfiles/bootstrap.sh
 ```
+
+If `DOT_OPENCODE_REPO` is not set, `bootstrap.sh` will prompt for it interactively. The URL is never stored in this repo.
 
 Or manually symlink individual files:
 

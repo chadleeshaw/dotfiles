@@ -143,7 +143,14 @@ if [ -d "$AGENTS_DIR/.git" ]; then
   git -C "$AGENTS_DIR" pull --quiet --ff-only 2>/dev/null || true
 else
   echo "    Cloning dot-opencode..."
-  git clone git@gitlab.com:vivint/horizontals/platform-ops/ai/dot-opencode.git "$AGENTS_DIR"
+  if [ -z "${DOT_OPENCODE_REPO:-}" ]; then
+    echo ""
+    echo "    DOT_OPENCODE_REPO is not set."
+    printf "    Enter the dot-opencode git URL (e.g. git@gitlab.com:org/repo.git): "
+    read -r DOT_OPENCODE_REPO
+    echo ""
+  fi
+  git clone "$DOT_OPENCODE_REPO" "$AGENTS_DIR"
 fi
 "$AGENTS_DIR/setup.sh"
 
