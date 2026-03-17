@@ -133,6 +133,21 @@ fi
 echo "    Done."
 
 # -------------------------------------------------------
+# 10. dot-opencode (AI agents, skills, plugins, scripts)
+# -------------------------------------------------------
+echo ""
+echo "==> Setting up dot-opencode (AI agents)..."
+AGENTS_DIR="$HOME/.agents"
+if [ -d "$AGENTS_DIR/.git" ]; then
+  echo "    Already cloned, pulling latest..."
+  git -C "$AGENTS_DIR" pull --quiet --ff-only 2>/dev/null || true
+else
+  echo "    Cloning dot-opencode..."
+  git clone git@gitlab.com:vivint/horizontals/platform-ops/ai/dot-opencode.git "$AGENTS_DIR"
+fi
+"$AGENTS_DIR/setup.sh"
+
+# -------------------------------------------------------
 # Done
 # -------------------------------------------------------
 echo ""
