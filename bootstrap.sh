@@ -122,6 +122,17 @@ nvim --headless -c "lua require('lazy').sync()" -c "qa" 2>&1
 echo "    Done."
 
 # -------------------------------------------------------
+# 9. TPM + tmux plugins
+# -------------------------------------------------------
+echo ""
+echo "==> Installing TPM and tmux plugins..."
+if [ ! -d ~/.tmux/plugins/tpm ]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+~/.tmux/plugins/tpm/scripts/install_plugins.sh 2>&1
+echo "    Done."
+
+# -------------------------------------------------------
 # Done
 # -------------------------------------------------------
 echo ""
