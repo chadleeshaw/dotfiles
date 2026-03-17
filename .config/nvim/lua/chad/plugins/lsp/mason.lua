@@ -28,7 +28,7 @@ mason_lspconfig.setup({
 		"gopls",
 		"pyright",
 		"remark_ls",
-		"salt_ls",
+		-- "salt_ls", -- requires PyYAML which fails to build on Python 3.14+
 		"taplo",
 		"yamlls",
 		"lua_ls",

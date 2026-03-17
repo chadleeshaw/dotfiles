@@ -1,109 +1,72 @@
--- import lspconfig plugin safely
-local lspconfig_status, lspconfig = pcall(require, "lspconfig")
-if not lspconfig_status then
-	return
-end
-
 -- import cmp-nvim-lsp plugin safely
 local cmp_nvim_lsp_status, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if not cmp_nvim_lsp_status then
 	return
 end
 
-local keymap = vim.keymap -- for conciseness
+-- set capabilities globally for all servers
+vim.lsp.config("*", {
+	capabilities = cmp_nvim_lsp.default_capabilities(),
+})
 
--- enable keybinds only for when lsp server available
-local on_attach = function(_, bufnr)
-	-- keybind options
-	local opts = { noremap = true, silent = true, buffer = bufnr }
-
-	-- navigation
-	keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
-	keymap.set("n", "gd", vim.lsp.buf.definition, opts) -- go to definition
-	keymap.set("n", "gi", vim.lsp.buf.implementation, opts) -- go to implementation
-	keymap.set("n", "gr", vim.lsp.buf.references, opts) -- show references
-	keymap.set("n", "K", vim.lsp.buf.hover, opts) -- hover docs
-
-	-- code actions
-	keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts) -- code action
-	keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
-
-	-- diagnostics
-	keymap.set("n", "<leader>D", vim.diagnostic.open_float, opts) -- line diagnostics
-	keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- previous diagnostic
-	keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- next diagnostic
-
-	-- workspace
-	keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- restart lsp
-end
-
--- used to enable autocompletion (assign to every lsp server config)
-local capabilities = cmp_nvim_lsp.default_capabilities()
-
--- Change the Diagnostic symbols in the sign column (gutter)
+-- diagnostic signs in the gutter
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
 	local hl = "DiagnosticSign" .. type
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
-lspconfig["bashls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
+-- keymaps applied whenever any LSP attaches to a buffer
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("UserLspKeymaps", { clear = true }),
+	callback = function(ev)
+		local opts = { noremap = true, silent = true, buffer = ev.buf }
+		local keymap = vim.keymap
+
+		-- navigation
+		keymap.set("n", "gD", vim.lsp.buf.declaration, opts)       -- go to declaration
+		keymap.set("n", "gd", vim.lsp.buf.definition, opts)         -- go to definition
+		keymap.set("n", "gi", vim.lsp.buf.implementation, opts)     -- go to implementation
+		keymap.set("n", "gr", vim.lsp.buf.references, opts)         -- show references
+		keymap.set("n", "K", vim.lsp.buf.hover, opts)               -- hover docs
+
+		-- code actions
+		keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts) -- code action
+		keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)      -- smart rename
+
+		-- diagnostics
+		keymap.set("n", "<leader>D", vim.diagnostic.open_float, opts) -- line diagnostics
+		keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)          -- previous diagnostic
+		keymap.set("n", "]d", vim.diagnostic.goto_next, opts)          -- next diagnostic
+
+		-- workspace
+		keymap.set("n", "<leader>rs", "<cmd>LspRestart<CR>", opts) -- restart lsp
+	end,
 })
 
-lspconfig["dockerls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
+-- configure and enable servers
+local servers = {
+	"bashls",
+	"dockerls",
+	"jsonls",
+	"remark_ls",
+	"pyright",
+	"gopls",
+	-- salt_ls removed: PyYAML fails to build on Python 3.14+
+	"yamlls",
+	"taplo",
+}
 
-lspconfig["jsonls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
+for _, server in ipairs(servers) do
+	vim.lsp.enable(server)
+end
 
-lspconfig["remark_ls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lspconfig["pyright"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lspconfig["gopls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lspconfig["salt_ls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lspconfig["yamlls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lspconfig["taplo"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
--- configure lua server (with special settings)
-lspconfig["lua_ls"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-	settings = { -- custom settings for lua
+-- lua_ls needs extra settings to recognise the vim global
+vim.lsp.config("lua_ls", {
+	settings = {
 		Lua = {
-			-- make the language server recognize "vim" global
-			diagnostics = {
-				globals = { "vim" },
-			},
+			diagnostics = { globals = { "vim" } },
 			workspace = {
-				-- make language server aware of runtime files
 				library = {
 					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
 					[vim.fn.stdpath("config") .. "/lua"] = true,
@@ -112,3 +75,4 @@ lspconfig["lua_ls"].setup({
 		},
 	},
 })
+vim.lsp.enable("lua_ls")
