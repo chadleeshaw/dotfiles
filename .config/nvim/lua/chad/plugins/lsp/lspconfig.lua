@@ -49,7 +49,7 @@ local servers = {
 	"bashls",
 	"dockerls",
 	"jsonls",
-	"remark_ls",
+	"marksman", -- markdown LSP (replaced remark_ls)
 	"pyright",
 	"gopls",
 	-- salt_ls removed: PyYAML fails to build on Python 3.14+

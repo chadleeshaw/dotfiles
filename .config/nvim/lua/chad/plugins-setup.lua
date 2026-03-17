@@ -104,6 +104,39 @@ require("lazy").setup({
 
 	-- git decorations
 	"lewis6991/gitsigns.nvim",
+
+	-- git diff / file history viewer
+	{
+		"sindrets/diffview.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+
+	-- keymap popup (shows available keys after leader)
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+	},
+
+	-- diagnostic / quickfix list UI
+	{
+		"folke/trouble.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
+
+	-- indent guides
+	"lukas-reineke/indent-blankline.nvim",
+
+	-- file bookmarks for fast project navigation
+	{
+		"ThePrimeagen/harpoon",
+		branch = "harpoon2",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+
+	-- LSP symbol outline panel
+	{
+		"hedyhli/outline.nvim",
+	},
 }, {
 	-- lazy.nvim options
 	ui = {

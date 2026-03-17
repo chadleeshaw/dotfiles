@@ -27,7 +27,7 @@ mason_lspconfig.setup({
 		"jsonls",
 		"gopls",
 		"pyright",
-		"remark_ls",
+		"marksman", -- markdown LSP (replaces remark_ls, lighter and more maintained)
 		-- "salt_ls", -- requires PyYAML which fails to build on Python 3.14+
 		"taplo",
 		"yamlls",
