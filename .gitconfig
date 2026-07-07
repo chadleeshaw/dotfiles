@@ -3,3 +3,11 @@
 	email = chad.shaw@vivint.com
 [includeIf "gitdir:~/src/chadleeshaw/"]
 	path = /Users/chad.shaw/.gitconfig-chadleeshaw
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[core]
+	excludesfile = /Users/chad.shaw/.gitignore_global

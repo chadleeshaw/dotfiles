@@ -77,3 +77,12 @@ complete -o default -F __start_kubectl k
 
 # Secrets (API keys etc.) — not tracked in git
 [ -f ~/.zsh_secrets ] && source ~/.zsh_secrets
+
+# >>> otty bash-profile shim >>>
+# Otty: login bash reads the profile, not ~/.bashrc — pull it in so
+# the shell-integration block in ~/.bashrc is reached (e.g. in tmux).
+if [ -f "$HOME/.bashrc" ]; then . "$HOME/.bashrc"; fi
+# <<< otty bash-profile shim >>>
+
+# Added by Enconvo
+export PATH="$HOME/.config/enconvo/bin:$PATH"

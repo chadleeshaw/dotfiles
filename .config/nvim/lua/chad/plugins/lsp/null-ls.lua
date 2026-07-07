@@ -17,7 +17,7 @@ null_ls.setup({
 	},
 	-- format on save
 	on_attach = function(current_client, bufnr)
-		if current_client.supports_method("textDocument/formatting") then
+		if current_client:supports_method("textDocument/formatting") then
 			local group = vim.api.nvim_create_augroup("LspFormatting", { clear = false })
 			vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
 			vim.api.nvim_create_autocmd("BufWritePre", {
