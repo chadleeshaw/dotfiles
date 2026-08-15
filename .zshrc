@@ -1,7 +1,9 @@
+export PATH="$HOME/.local/bin:$PATH"
 export CLICOLOR=1
 eval "$(/opt/homebrew/bin/brew shellenv)"
 ulimit -n 2048
 
+export EDITOR="nvim"
 export GOPATH=$HOME/go
 export GOROOT="$(brew --prefix golang)/libexec"
 export GOOS="darwin"
@@ -10,6 +12,7 @@ export GOBIN=$GOPATH/bin
 export GEM_HOME=$HOME/.gem
 export PATH=$PATH:$HOME/src/pops/salt-states/bin:${GOPATH}/bin:${GOROOT}/bin
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export PATH="$HOME/.agents/scripts:$PATH"
 export JAVA_HOME=/opt/homebrew/opt/openjdk
 export WARP_DISABLE_PROMPT_OVERRIDE=1
 export CLAUDE_TEAMS_BACKENDS=opencode
@@ -38,6 +41,18 @@ function y() {
 }
 bindkey -s '^y' 'y\n'
 
+# Pi - launch with Ctrl+O (or pass current prompt)
+function _pi_zsh_widget() {
+  if [[ -z "$BUFFER" ]]; then
+    BUFFER="pi"
+  else
+    BUFFER="pi ${(qq)BUFFER}"
+  fi
+  zle accept-line
+}
+zle -N _pi_zsh_widget
+bindkey '^o' _pi_zsh_widget
+
 # Aliases
 alias ls="eza --icons --group-directories-first"
 alias ll="eza --icons --group-directories-first -la"
@@ -45,6 +60,7 @@ alias vi='nvim'
 alias vim='nvim'
 alias x='exit'
 alias c='clear'
+alias claude='claude --dangerously-skip-permissions'
 alias huh='ps aux | grep '
 alias gs='git status'
 alias ga='git add'
@@ -74,4 +90,11 @@ export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 
 # Secrets (API keys etc.) — not tracked in git
 [ -f ~/.zsh_secrets ] && source ~/.zsh_secrets
+
+# Grok CLI
+if [ -d "$HOME/.grok/bin" ]; then
+  export PATH="$HOME/.grok/bin:$PATH"
+  fpath=(~/.grok/completions/zsh $fpath)
+  autoload -Uz compinit && compinit -C
+fi
 
